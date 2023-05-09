@@ -1,0 +1,17 @@
+Source: vulkan-utility-libraries
+Section: unknown
+Priority: optional
+Maintainer: john <johnz@lunarg.com>
+Build-Depends: debhelper-compat (= 12),
+ cmake,
+ vulkan-headers (>= 1.3.246.0~rc1)
+Standards-Version: 4.4.1
+Homepage: https://github.com/KhronosGroup/Vulkan-Utility-Libraries.git
+Vcs-Browser: https://github.com/KhronosGroup/Vulkan-Utility-Libraries.git
+Vcs-Git: https://github.com/KhronosGroup/Vulkan-Utility-Libraries.git
+
+Package: vulkan-utility-libraries
+Architecture: any
+Depends: ${shlibs:Depends}, ${misc:Depends}
+Description: Utility Libraries for various
+ vulkan repositories
