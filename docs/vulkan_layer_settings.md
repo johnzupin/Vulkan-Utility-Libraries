@@ -6,4 +6,4 @@ Copyright 2023 LunarG, Inc.
 SPDX-License-Identifier: Apache-2.0
 -->
 
-# Vulkan-Utility-Libraries
+# Vulkan-Layer-Settings library
