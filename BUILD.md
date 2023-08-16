@@ -1,3 +1,11 @@
+<!--
+Copyright 2023 The Khronos Group Inc.
+Copyright 2023 Valve Corporation
+Copyright 2023 LunarG, Inc.
+
+SPDX-License-Identifier: Apache-2.0
+-->
+
 # Build Instructions
 
 This document contains the instructions for building this repository on Linux, macOS and Windows.
@@ -17,9 +25,6 @@ This document contains the instructions for building this repository on Linux, m
 The following will be enough for most people, for more detailed instructions, see below.
 
 ```bash
-git clone git@github.com:KhronosGroup/Vulkan-Profiles.git
-cd Vulkan-Profiles
-
 cmake -S . -B build/ -D CMAKE_BUILD_TYPE=Debug -D UPDATE_DEPS=ON
 cmake --build build --config Debug
 ```
@@ -27,7 +32,7 @@ cmake --build build --config Debug
 ### Recommended setup for developers
 
 ```bash
-cmake -S . -B build/ -D VUL_WERROR=ON -D VUL_TESTS=ON -D CMAKE_BUILD_TYPE=Debug -D UPDATE_DEPS=ON
+cmake -S . -B build/ -D VUL_WERROR=ON -D BUILD_TESTS=ON  -D UPDATE_DEPS=ON -D CMAKE_BUILD_TYPE=Debug
 ```
 
 ### Unit Tests
