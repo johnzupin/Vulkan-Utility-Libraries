@@ -50,20 +50,27 @@ static std::string GetAndroidProperty(const char *name) {
 }
 #endif
 
-static bool IsEnvironment(const char *variable) {
-#if defined(__ANDROID__)
-    return !GetAndroidProperty(variable).empty();
-#else
-    return std::getenv(variable) != NULL;
-#endif
-}
-
 static std::string GetEnvironment(const char *variable) {
 #if defined(__ANDROID__)
-    return GetAndroidProperty(variable);
+    std::string result = GetAndroidProperty(variable);
+    // Workaround for screenshot layer backward compatibility
+    if (result.empty() && std::string(variable) == "debug.vulkan.screenshot.frames") {
+        result = GetAndroidProperty("debug.vulkan.screenshot");
+    }
+    return result;
+#elif defined(_WIN32)
+    auto size = GetEnvironmentVariableA(variable, NULL, 0);
+    if (size == 0) {
+        return "";
+    }
+    char *buffer = new char[size];
+    GetEnvironmentVariableA(variable, buffer, size);
+    std::string output = buffer;
+    delete[] buffer;
+    return output;
 #else
     const char *output = std::getenv(variable);
-    return output == NULL ? "" : output;
+    return output == nullptr ? "" : output;
 #endif
 }
 
@@ -94,7 +101,7 @@ static inline bool IsHighIntegrity() {
 
 // To prevent exposing an interface that would make it easy to use inconsistent setting naming,
 // we hide here workaround of existing layers to preserve backward compatibility
-static void AddWorkaroundLayerNames(std::vector<std::string> &layer_names) { 
+static void AddWorkaroundLayerNames(std::vector<std::string> &layer_names) {
     if (std::find(layer_names.begin(), layer_names.end(), "VK_LAYER_KHRONOS_synchronization2") != layer_names.end()) {
         layer_names.push_back("VK_LAYER_KHRONOS_sync2");
         return;
@@ -103,19 +110,19 @@ static void AddWorkaroundLayerNames(std::vector<std::string> &layer_names) {
 
 namespace vl {
 
-LayerSettings::LayerSettings(const char *pLayerName, const VkLayerSettingsCreateInfoEXT *pCreateInfo,
-                             const VkAllocationCallbacks *pAllocator, VL_LAYER_SETTING_LOG_CALLBACK callback)
-    : layer_name(pLayerName), create_info(pCreateInfo), callback(callback) {
+LayerSettings::LayerSettings(const char *pLayerName, const VkLayerSettingsCreateInfoEXT *pFirstCreateInfo,
+                             const VkAllocationCallbacks *pAllocator, VkuLayerSettingLogCallback pCallback)
+    : layer_name(pLayerName), first_create_info(pFirstCreateInfo), pCallback(pCallback) {
     (void)pAllocator;
     assert(pLayerName != nullptr);
 
-    std::string settings_file = this->FindSettingsFile();
-    this->ParseSettingsFile(settings_file.c_str());
+    std::filesystem::path settings_file = this->FindSettingsFile();
+    this->ParseSettingsFile(settings_file);
 }
 
 LayerSettings::~LayerSettings() {}
 
-void LayerSettings::ParseSettingsFile(const char *filename) {
+void LayerSettings::ParseSettingsFile(const std::filesystem::path &filename) {
     // Extract option = value pairs from a file
     std::ifstream file(filename);
     if (file.good()) {
@@ -134,7 +141,7 @@ void LayerSettings::ParseSettingsFile(const char *filename) {
     }
 }
 
-std::string LayerSettings::FindSettingsFile() {
+std::filesystem::path LayerSettings::FindSettingsFile() {
     struct stat info;
 
 #if defined(WIN32)
@@ -145,9 +152,9 @@ std::string LayerSettings::FindSettingsFile() {
     const size_t hives_to_check_count = IsHighIntegrity() ? 1 : hives.size();  // Admin checks only the default hive
 
     for (size_t hive_index = 0; hive_index < hives_to_check_count; ++hive_index) {
-        LSTATUS err = RegOpenKeyEx(hives[hive_index], "Software\\Khronos\\Vulkan\\Settings", 0, KEY_READ, &key);
+        LSTATUS err = RegOpenKeyEx(hives[hive_index], TEXT("Software\\Khronos\\Vulkan\\Settings"), 0, KEY_READ, &key);
         if (err == ERROR_SUCCESS) {
-            char name[2048];
+            TCHAR name[2048];
             DWORD i = 0, name_size, type, pValues, value_size;
             while (ERROR_SUCCESS == RegEnumValue(key, i++, name, &(name_size = sizeof(name)), nullptr, &type,
                                                  reinterpret_cast<LPBYTE>(&pValues), &(value_size = sizeof(pValues)))) {
@@ -157,7 +164,8 @@ std::string LayerSettings::FindSettingsFile() {
                 }
 
                 // Check if this actually points to a file
-                if ((stat(name, &info) != 0) || !(info.st_mode & S_IFREG)) {
+                DWORD fileAttrib = GetFileAttributes(name);
+                if ((fileAttrib == INVALID_FILE_ATTRIBUTES) || (fileAttrib & FILE_ATTRIBUTE_DIRECTORY)) {
                     continue;
                 }
 
@@ -217,36 +225,42 @@ std::string LayerSettings::FindSettingsFile() {
 }
 
 const VkLayerSettingEXT *LayerSettings::FindLayerSettingValue(const char *pSettingName) {
-    if (this->create_info == nullptr) {
+    if (this->first_create_info == nullptr) {
         return nullptr;
     }
 
     const std::string setting_name(pSettingName);
 
-    for (std::size_t i = 0, n = this->create_info->settingCount; i < n; ++i) {
-        const VkLayerSettingEXT *setting = &this->create_info->pSettings[i];
-        if (setting->pLayerName != this->layer_name) {
-            continue;
+    const VkLayerSettingsCreateInfoEXT *current_create_info = this->first_create_info;
+
+    while (current_create_info != nullptr) {
+        for (std::size_t i = 0, n = current_create_info->settingCount; i < n; ++i) {
+            const VkLayerSettingEXT *setting = &current_create_info->pSettings[i];
+            if (setting->pLayerName != this->layer_name) {
+                continue;
+            }
+
+            if (setting->pSettingName != setting_name) {
+                continue;
+            }
+
+            return setting;
         }
 
-        if (setting->pSettingName != setting_name) {
-            continue;
-        }
-
-        return setting;
+        current_create_info = vkuNextLayerSettingsCreateInfo(current_create_info);
     }
 
     return nullptr;
 }
 
-void LayerSettings::Log(const char *pSettingName, const char * pMessage) {
+void LayerSettings::Log(const char *pSettingName, const char *pMessage) {
     this->last_log_setting = pSettingName;
     this->last_log_message = pMessage;
 
-    if (this->callback == nullptr) {
+    if (this->pCallback == nullptr) {
         fprintf(stderr, "LAYER SETTING (%s) error: %s\n", this->last_log_setting.c_str(), this->last_log_message.c_str());
     } else {
-        this->callback(this->last_log_setting.c_str(), this->last_log_message.c_str());
+        this->pCallback(this->last_log_setting.c_str(), this->last_log_message.c_str());
     }
 }
 
@@ -262,16 +276,10 @@ std::vector<std::string> &LayerSettings::GetSettingCache(const std::string &sett
 bool LayerSettings::HasEnvSetting(const char *pSettingName) {
     assert(pSettingName != nullptr);
 
-    for (int i = TRIM_FIRST, n = TRIM_LAST; i < n; ++i) {
-        if (IsEnvironment(GetEnvSettingName(this->layer_name.c_str(), pSettingName, static_cast<TrimMode>(i)).c_str())) {
-            return true;
-        }
-    }
-
-    return false;
+    return !GetEnvSetting(pSettingName).empty();
 }
 
-bool LayerSettings::HasFileSetting(const char *pSettingName) { 
+bool LayerSettings::HasFileSetting(const char *pSettingName) {
     assert(pSettingName != nullptr);
 
     std::string file_setting_name = vl::GetFileSettingName(this->layer_name.c_str(), pSettingName);
@@ -286,22 +294,32 @@ bool LayerSettings::HasAPISetting(const char *pSettingName) {
 }
 
 std::string LayerSettings::GetEnvSetting(const char *pSettingName) {
-    std::string result;
-
     std::vector<std::string> layer_names;
     layer_names.push_back(this->layer_name);
     ::AddWorkaroundLayerNames(layer_names);
 
     for (std::size_t layer_index = 0, layer_count = layer_names.size(); layer_index < layer_count; ++layer_index) {
-        for (int i = TRIM_FIRST, n = TRIM_LAST; i < n; ++i) {
-            result = GetEnvironment(GetEnvSettingName(layer_names[layer_index].c_str(), pSettingName, static_cast<TrimMode>(i)).c_str());
+        const char *cur_layer_name = layer_names[layer_index].c_str();
+
+        if (!this->prefix.empty()) {
+            const std::string &env_name = GetEnvSettingName(cur_layer_name, this->prefix.c_str(), pSettingName, TRIM_NAMESPACE);
+            std::string result = GetEnvironment(env_name.c_str());
             if (!result.empty()) {
-                break;
+                return result;
+            }
+        }
+
+        for (int trim_index = TRIM_FIRST; trim_index <= TRIM_LAST; ++trim_index) {
+            const std::string &env_name =
+                GetEnvSettingName(cur_layer_name, this->prefix.c_str(), pSettingName, static_cast<TrimMode>(trim_index));
+            std::string result = GetEnvironment(env_name.c_str());
+            if (!result.empty()) {
+                return result;
             }
         }
     }
 
-    return result;
+    return std::string();
 }
 
 std::string LayerSettings::GetFileSetting(const char *pSettingName) {
@@ -321,7 +339,7 @@ void LayerSettings::SetFileSetting(const char *pSettingName, const std::string &
     this->setting_file_values.insert({pSettingName, pValues});
 }
 
-const VkLayerSettingEXT *LayerSettings::GetAPISetting(const char *pSettingName) { 
+const VkLayerSettingEXT *LayerSettings::GetAPISetting(const char *pSettingName) {
     assert(pSettingName != nullptr);
 
     return reinterpret_cast<const VkLayerSettingEXT *>(this->FindLayerSettingValue(pSettingName));
