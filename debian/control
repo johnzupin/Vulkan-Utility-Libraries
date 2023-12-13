@@ -15,3 +15,9 @@ Architecture: any
 Depends: ${shlibs:Depends}, ${misc:Depends}
 Description: Utility Libraries for various
  vulkan repositories
+
+Package: vulkan-utility-libraries-dev
+Architecture: any
+Depends: vulkan-utility-libraries, ${shlibs:Depends}, ${misc:Depends}
+Description: Utility Libraries for various
+ vulkan repositories
