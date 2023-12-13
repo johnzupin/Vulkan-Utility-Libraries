@@ -16,19 +16,19 @@ TEST(test_layer_settings_util, FindSettingsInChain_found_first) {
     debugReportCallbackCreateInfo.sType = VK_STRUCTURE_TYPE_DEBUG_REPORT_CALLBACK_CREATE_INFO_EXT;
 
     VkLayerSettingsCreateInfoEXT layerSettingsCreateInfo{};
-    layerSettingsCreateInfo.sType = VK_STRUCTURE_TYPE_LAYER_SETTINGS_EXT;
+    layerSettingsCreateInfo.sType = VK_STRUCTURE_TYPE_LAYER_SETTINGS_CREATE_INFO_EXT;
     layerSettingsCreateInfo.pNext = &debugReportCallbackCreateInfo;
 
     VkInstanceCreateInfo instanceCreateInfo{};
     instanceCreateInfo.sType = VK_STRUCTURE_TYPE_INSTANCE_CREATE_INFO;
     instanceCreateInfo.pNext = &layerSettingsCreateInfo;
 
-    EXPECT_EQ(&layerSettingsCreateInfo, vlFindLayerSettingsCreateInfo(&instanceCreateInfo));
+    EXPECT_EQ(&layerSettingsCreateInfo, vkuFindLayerSettingsCreateInfo(&instanceCreateInfo));
 }
 
 TEST(test_layer_settings_util, FindSettingsInChain_found_last) {
     VkLayerSettingsCreateInfoEXT layerSettingsCreateInfo{};
-    layerSettingsCreateInfo.sType = VK_STRUCTURE_TYPE_LAYER_SETTINGS_EXT;
+    layerSettingsCreateInfo.sType = VK_STRUCTURE_TYPE_LAYER_SETTINGS_CREATE_INFO_EXT;
 
     VkDebugReportCallbackCreateInfoEXT debugReportCallbackCreateInfo{};
     debugReportCallbackCreateInfo.sType = VK_STRUCTURE_TYPE_DEBUG_REPORT_CALLBACK_CREATE_INFO_EXT;
@@ -38,7 +38,7 @@ TEST(test_layer_settings_util, FindSettingsInChain_found_last) {
     instanceCreateInfo.sType = VK_STRUCTURE_TYPE_INSTANCE_CREATE_INFO;
     instanceCreateInfo.pNext = &debugReportCallbackCreateInfo;
 
-    EXPECT_EQ(&layerSettingsCreateInfo, vlFindLayerSettingsCreateInfo(&instanceCreateInfo));
+    EXPECT_EQ(&layerSettingsCreateInfo, vkuFindLayerSettingsCreateInfo(&instanceCreateInfo));
 }
 
 TEST(test_layer_settings_util, FindSettingsInChain_found_not) {
@@ -49,7 +49,7 @@ TEST(test_layer_settings_util, FindSettingsInChain_found_not) {
     instanceCreateInfo.sType = VK_STRUCTURE_TYPE_INSTANCE_CREATE_INFO;
     instanceCreateInfo.pNext = &debugReportCallbackCreateInfo;
 
-    EXPECT_EQ(nullptr, vlFindLayerSettingsCreateInfo(&instanceCreateInfo));
+    EXPECT_EQ(nullptr, vkuFindLayerSettingsCreateInfo(&instanceCreateInfo));
 }
 
 TEST(test_layer_settings_util, FindDelimiter) {
@@ -263,7 +263,7 @@ TEST(test_layer_settings_util, TrimVendor) {
 
 TEST(test_layer_settings_util, GetEnvSettingName_TrimNone) {
     {
-        const std::string result = vl::GetEnvSettingName("VK_LAYER_LUNARG_test", "log_mode", vl::TRIM_NONE);
+        const std::string result = vl::GetEnvSettingName("VK_LAYER_LUNARG_test", nullptr, "log_mode", vl::TRIM_NONE);
 
         EXPECT_STREQ("VK_LUNARG_TEST_LOG_MODE", result.c_str());
     }
@@ -271,7 +271,7 @@ TEST(test_layer_settings_util, GetEnvSettingName_TrimNone) {
 
 TEST(test_layer_settings_util, GetEnvSettingName_TrimVendor) {
     {
-        const std::string result = vl::GetEnvSettingName("VK_LAYER_LUNARG_test", "log_mode", vl::TRIM_VENDOR);
+        const std::string result = vl::GetEnvSettingName("VK_LAYER_LUNARG_test", nullptr, "log_mode", vl::TRIM_VENDOR);
 
         EXPECT_STREQ("VK_TEST_LOG_MODE", result.c_str());
     }
@@ -279,9 +279,17 @@ TEST(test_layer_settings_util, GetEnvSettingName_TrimVendor) {
 
 TEST(test_layer_settings_util, GetEnvSettingName_TrimNamespace) {
     {
-        const std::string result = vl::GetEnvSettingName("VK_LAYER_LUNARG_test", "log_mode", vl::TRIM_NAMESPACE);
+        const std::string result = vl::GetEnvSettingName("VK_LAYER_LUNARG_test", nullptr, "log_mode", vl::TRIM_NAMESPACE);
 
         EXPECT_STREQ("VK_LOG_MODE", result.c_str());
+    }
+}
+
+TEST(test_layer_settings_util, GetEnvSettingName_TrimAddPrefix) {
+    {
+        const std::string result = vl::GetEnvSettingName("VK_LAYER_LUNARG_test", "LAYER", "log_mode", vl::TRIM_NAMESPACE);
+
+        EXPECT_STREQ("VK_LAYER_LOG_MODE", result.c_str());
     }
 }
 
@@ -340,7 +348,7 @@ TEST(test_layer_settings_util, ToInt32) {
     EXPECT_EQ(24, vl::ToInt32("24"));
     EXPECT_EQ(-24, vl::ToInt32("-24"));
     EXPECT_EQ(2147483647, vl::ToInt32("2147483647"));
-    EXPECT_EQ(-2147483648, vl::ToInt32("-2147483648"));
+    EXPECT_EQ(-2147483647, vl::ToInt32("-2147483647"));
     EXPECT_EQ(65535, vl::ToInt32("0xFFFF"));
     EXPECT_EQ(-65535, vl::ToInt32("-0xFFFF"));
     EXPECT_EQ(15, vl::ToInt32("0xF"));
@@ -397,7 +405,7 @@ TEST(test_layer_settings_util, is_framesets) {
 
 TEST(test_layer_settings_util, to_framesets) {
     {
-        std::vector<VkFramesetEXT> framesets = vl::ToFrameSets("0");
+        std::vector<VkuFrameset> framesets = vl::ToFrameSets("0");
         EXPECT_EQ(1, framesets.size());
 
         EXPECT_EQ(0, framesets[0].first);
@@ -406,7 +414,7 @@ TEST(test_layer_settings_util, to_framesets) {
     }
 
     {
-        std::vector<VkFramesetEXT> framesets = vl::ToFrameSets("76");
+        std::vector<VkuFrameset> framesets = vl::ToFrameSets("76");
         EXPECT_EQ(1, framesets.size());
 
         EXPECT_EQ(76, framesets[0].first);
@@ -415,7 +423,7 @@ TEST(test_layer_settings_util, to_framesets) {
     }
 
     {
-        std::vector<VkFramesetEXT> framesets = vl::ToFrameSets("0-2");
+        std::vector<VkuFrameset> framesets = vl::ToFrameSets("0-2");
         EXPECT_EQ(1, framesets.size());
 
         EXPECT_EQ(0, framesets[0].first);
@@ -424,7 +432,7 @@ TEST(test_layer_settings_util, to_framesets) {
     }
 
     {
-        std::vector<VkFramesetEXT> framesets = vl::ToFrameSets("0-2,6,7");
+        std::vector<VkuFrameset> framesets = vl::ToFrameSets("0-2,6,7");
         EXPECT_EQ(3, framesets.size());
 
         EXPECT_EQ(0, framesets[0].first);
@@ -441,7 +449,7 @@ TEST(test_layer_settings_util, to_framesets) {
     }
 
     {
-        std::vector<VkFramesetEXT> framesets = vl::ToFrameSets("0-2,6-7");
+        std::vector<VkuFrameset> framesets = vl::ToFrameSets("0-2,6-7");
         EXPECT_EQ(2, framesets.size());
 
         EXPECT_EQ(0, framesets[0].first);
@@ -454,7 +462,7 @@ TEST(test_layer_settings_util, to_framesets) {
     }
 
     {
-        std::vector<VkFramesetEXT> framesets = vl::ToFrameSets("1-2,60,70");
+        std::vector<VkuFrameset> framesets = vl::ToFrameSets("1-2,60,70");
         EXPECT_EQ(3, framesets.size());
 
         EXPECT_EQ(1, framesets[0].first);
@@ -471,7 +479,7 @@ TEST(test_layer_settings_util, to_framesets) {
     }
 
     {
-        std::vector<VkFramesetEXT> framesets = vl::ToFrameSets("10-20,60,70");
+        std::vector<VkuFrameset> framesets = vl::ToFrameSets("10-20,60,70");
         EXPECT_EQ(3, framesets.size());
 
         EXPECT_EQ(10, framesets[0].first);
@@ -488,7 +496,7 @@ TEST(test_layer_settings_util, to_framesets) {
     }
 
     {
-        std::vector<VkFramesetEXT> framesets = vl::ToFrameSets("1-8-2");
+        std::vector<VkuFrameset> framesets = vl::ToFrameSets("1-8-2");
         EXPECT_EQ(1, framesets.size());
 
         EXPECT_EQ(1, framesets[0].first);
@@ -497,7 +505,7 @@ TEST(test_layer_settings_util, to_framesets) {
     }
 
     {
-        std::vector<VkFramesetEXT> framesets = vl::ToFrameSets("1-8-2,0");
+        std::vector<VkuFrameset> framesets = vl::ToFrameSets("1-8-2,0");
         EXPECT_EQ(2, framesets.size());
 
         EXPECT_EQ(1, framesets[0].first);
@@ -510,7 +518,7 @@ TEST(test_layer_settings_util, to_framesets) {
     }
 
     {
-        std::vector<VkFramesetEXT> framesets = vl::ToFrameSets("1-8-2,10-20-5");
+        std::vector<VkuFrameset> framesets = vl::ToFrameSets("1-8-2,10-20-5");
         EXPECT_EQ(2, framesets.size());
 
         EXPECT_EQ(1, framesets[0].first);
@@ -523,7 +531,7 @@ TEST(test_layer_settings_util, to_framesets) {
     }
 
     {
-        std::vector<VkFramesetEXT> framesets = vl::ToFrameSets("1-8,10-20-5");
+        std::vector<VkuFrameset> framesets = vl::ToFrameSets("1-8,10-20-5");
         EXPECT_EQ(2, framesets.size());
 
         EXPECT_EQ(1, framesets[0].first);
@@ -536,7 +544,7 @@ TEST(test_layer_settings_util, to_framesets) {
     }
 
     {
-        std::vector<VkFramesetEXT> framesets = vl::ToFrameSets("1-8-2,10-20-1");
+        std::vector<VkuFrameset> framesets = vl::ToFrameSets("1-8-2,10-20-1");
         EXPECT_EQ(2, framesets.size());
 
         EXPECT_EQ(1, framesets[0].first);
@@ -549,7 +557,7 @@ TEST(test_layer_settings_util, to_framesets) {
     }
 
     {
-        std::vector<VkFramesetEXT> framesets = vl::ToFrameSets("1,2,3,4");
+        std::vector<VkuFrameset> framesets = vl::ToFrameSets("1,2,3,4");
         EXPECT_EQ(4, framesets.size());
 
         EXPECT_EQ(1, framesets[0].first);
@@ -568,4 +576,219 @@ TEST(test_layer_settings_util, to_framesets) {
         EXPECT_EQ(1, framesets[3].count);
         EXPECT_EQ(1, framesets[3].step);
     }
+}
+
+TEST(test_layer_settings_util, vkuGetUnknownSettings_SingleCreateInfo) {
+    std::vector<VkLayerSettingEXT> settings;
+
+    VkBool32 value_bool = VK_TRUE;
+    VkLayerSettingEXT setting_bool_value{};
+    setting_bool_value.pLayerName = "VK_LAYER_LUNARG_test";
+    setting_bool_value.pSettingName = "bool_value";
+    setting_bool_value.type = VK_LAYER_SETTING_TYPE_BOOL32_EXT;
+    setting_bool_value.pValues = &value_bool;
+    setting_bool_value.valueCount = 1;
+    settings.push_back(setting_bool_value);
+
+    std::int32_t value_int32 = 76;
+    VkLayerSettingEXT setting_int32_value{};
+    setting_int32_value.pLayerName = "VK_LAYER_LUNARG_test";
+    setting_int32_value.pSettingName = "int32_value";
+    setting_int32_value.type = VK_LAYER_SETTING_TYPE_INT32_EXT;
+    setting_int32_value.pValues = &value_int32;
+    setting_int32_value.valueCount = 1;
+    settings.push_back(setting_int32_value);
+
+    std::int64_t value_int64 = static_cast<int64_t>(1) << static_cast<int64_t>(40);
+    VkLayerSettingEXT setting_int64_value{};
+    setting_int64_value.pLayerName = "VK_LAYER_LUNARG_test";
+    setting_int64_value.pSettingName = "int64_value";
+    setting_int64_value.type = VK_LAYER_SETTING_TYPE_INT64_EXT;
+    setting_int64_value.pValues = &value_int64;
+    setting_int64_value.valueCount = 1;
+    settings.push_back(setting_int64_value);
+
+    std::uint32_t value_uint32 = 76u;
+    VkLayerSettingEXT setting_uint32_value{};
+    setting_uint32_value.pLayerName = "VK_LAYER_LUNARG_test";
+    setting_uint32_value.pSettingName = "uint32_value";
+    setting_uint32_value.type = VK_LAYER_SETTING_TYPE_UINT32_EXT;
+    setting_uint32_value.pValues = &value_uint32;
+    setting_uint32_value.valueCount = 1;
+    settings.push_back(setting_uint32_value);
+
+    std::uint64_t value_uint64 = static_cast<uint64_t>(1) << static_cast<uint64_t>(40);
+    VkLayerSettingEXT setting_uint64_value{};
+    setting_uint64_value.pLayerName = "VK_LAYER_LUNARG_test";
+    setting_uint64_value.pSettingName = "uint64_value";
+    setting_uint64_value.type = VK_LAYER_SETTING_TYPE_UINT64_EXT;
+    setting_uint64_value.pValues = &value_uint64;
+    setting_uint64_value.valueCount = 1;
+    settings.push_back(setting_uint64_value);
+
+    float value_float = 76.1f;
+    VkLayerSettingEXT setting_float_value{};
+    setting_float_value.pLayerName = "VK_LAYER_LUNARG_test";
+    setting_float_value.pSettingName = "float_value";
+    setting_float_value.type = VK_LAYER_SETTING_TYPE_FLOAT32_EXT;
+    setting_float_value.pValues = &value_float;
+    setting_float_value.valueCount = 1;
+    settings.push_back(setting_float_value);
+
+    double value_double = 76.1;
+    VkLayerSettingEXT setting_double_value{};
+    setting_double_value.pLayerName = "VK_LAYER_LUNARG_test";
+    setting_double_value.pSettingName = "double_value";
+    setting_double_value.type = VK_LAYER_SETTING_TYPE_FLOAT64_EXT;
+    setting_double_value.pValues = &value_double;
+    setting_double_value.valueCount = 1;
+    settings.push_back(setting_double_value);
+
+    VkuFrameset value_frameset{76, 100, 10};
+    VkLayerSettingEXT setting_frameset_value{};
+    setting_frameset_value.pLayerName = "VK_LAYER_LUNARG_test";
+    setting_frameset_value.pSettingName = "frameset_value";
+    setting_frameset_value.type = VK_LAYER_SETTING_TYPE_UINT32_EXT;
+    setting_frameset_value.pValues = &value_frameset;
+    setting_frameset_value.valueCount = sizeof(VkuFrameset) / sizeof(VkuFrameset::count);
+    settings.push_back(setting_frameset_value);
+
+    VkLayerSettingsCreateInfoEXT create_info;
+    create_info.sType = VK_STRUCTURE_TYPE_LAYER_SETTINGS_CREATE_INFO_EXT;
+    create_info.pNext = nullptr;
+    create_info.settingCount = static_cast<uint32_t>(settings.size());
+    create_info.pSettings = &settings[0];
+
+    const char* setting_names[] = {"int32_value", "int64_value", "uint32_value", "uint64_value", "float_value", "double_value"};
+    const std::uint32_t setting_name_count = static_cast<std::uint32_t>(std::size(setting_names));
+
+    uint32_t unknown_settings_count = 0;
+    vkuGetUnknownSettings(&create_info, setting_name_count, setting_names, &unknown_settings_count, nullptr);
+    EXPECT_EQ(2, unknown_settings_count);
+
+    std::vector<const char*> unknown_settings(unknown_settings_count);
+
+    unknown_settings_count = 1;
+    vkuGetUnknownSettings(&create_info, setting_name_count, setting_names, &unknown_settings_count, &unknown_settings[0]);
+    EXPECT_EQ(1, unknown_settings_count);
+    EXPECT_STREQ("bool_value", unknown_settings[0]);
+
+    unknown_settings_count = 2;
+    vkuGetUnknownSettings(&create_info, setting_name_count, setting_names, &unknown_settings_count, &unknown_settings[0]);
+
+    EXPECT_STREQ("bool_value", unknown_settings[0]);
+    EXPECT_STREQ("frameset_value", unknown_settings[1]);
+}
+
+TEST(test_layer_settings_util, vlGetUnknownSettings_MultipleCreateInfo) {
+    std::vector<VkLayerSettingEXT> settingsA;
+
+    VkBool32 value_bool = VK_TRUE;
+    VkLayerSettingEXT setting_bool_value{};
+    setting_bool_value.pLayerName = "VK_LAYER_LUNARG_test";
+    setting_bool_value.pSettingName = "bool_value";
+    setting_bool_value.type = VK_LAYER_SETTING_TYPE_BOOL32_EXT;
+    setting_bool_value.pValues = &value_bool;
+    setting_bool_value.valueCount = 1;
+    settingsA.push_back(setting_bool_value);
+
+    std::int32_t value_int32 = 76;
+    VkLayerSettingEXT setting_int32_value{};
+    setting_int32_value.pLayerName = "VK_LAYER_LUNARG_test";
+    setting_int32_value.pSettingName = "int32_value";
+    setting_int32_value.type = VK_LAYER_SETTING_TYPE_INT32_EXT;
+    setting_int32_value.pValues = &value_int32;
+    setting_int32_value.valueCount = 1;
+    settingsA.push_back(setting_int32_value);
+
+    std::int64_t value_int64 = static_cast<int64_t>(1) << static_cast<int64_t>(40);
+    VkLayerSettingEXT setting_int64_value{};
+    setting_int64_value.pLayerName = "VK_LAYER_LUNARG_test";
+    setting_int64_value.pSettingName = "int64_value";
+    setting_int64_value.type = VK_LAYER_SETTING_TYPE_INT64_EXT;
+    setting_int64_value.pValues = &value_int64;
+    setting_int64_value.valueCount = 1;
+    settingsA.push_back(setting_int64_value);
+
+    std::uint32_t value_uint32 = 76u;
+    VkLayerSettingEXT setting_uint32_value{};
+    setting_uint32_value.pLayerName = "VK_LAYER_LUNARG_test";
+    setting_uint32_value.pSettingName = "uint32_value";
+    setting_uint32_value.type = VK_LAYER_SETTING_TYPE_UINT32_EXT;
+    setting_uint32_value.pValues = &value_uint32;
+    setting_uint32_value.valueCount = 1;
+    settingsA.push_back(setting_uint32_value);
+
+    std::uint64_t value_uint64 = static_cast<uint64_t>(1) << static_cast<uint64_t>(40);
+    VkLayerSettingEXT setting_uint64_value{};
+    setting_uint64_value.pLayerName = "VK_LAYER_LUNARG_test";
+    setting_uint64_value.pSettingName = "uint64_value";
+    setting_uint64_value.type = VK_LAYER_SETTING_TYPE_UINT64_EXT;
+    setting_uint64_value.pValues = &value_uint64;
+    setting_uint64_value.valueCount = 1;
+    settingsA.push_back(setting_uint64_value);
+
+    VkLayerSettingsCreateInfoEXT create_infoA;
+    create_infoA.sType = VK_STRUCTURE_TYPE_LAYER_SETTINGS_CREATE_INFO_EXT;
+    create_infoA.pNext = nullptr;
+    create_infoA.settingCount = static_cast<uint32_t>(settingsA.size());
+    create_infoA.pSettings = &settingsA[0];
+
+    std::vector<VkLayerSettingEXT> settingsB;
+
+    float value_float = 76.1f;
+    VkLayerSettingEXT setting_float_value{};
+    setting_float_value.pLayerName = "VK_LAYER_LUNARG_test";
+    setting_float_value.pSettingName = "float_value";
+    setting_float_value.type = VK_LAYER_SETTING_TYPE_FLOAT32_EXT;
+    setting_float_value.pValues = &value_float;
+    setting_float_value.valueCount = 1;
+    settingsB.push_back(setting_float_value);
+
+    double value_double = 76.1;
+    VkLayerSettingEXT setting_double_value{};
+    setting_double_value.pLayerName = "VK_LAYER_LUNARG_test";
+    setting_double_value.pSettingName = "double_value";
+    setting_double_value.type = VK_LAYER_SETTING_TYPE_FLOAT64_EXT;
+    setting_double_value.pValues = &value_double;
+    setting_double_value.valueCount = 1;
+    settingsB.push_back(setting_double_value);
+
+    VkuFrameset value_frameset{76, 100, 10};
+    VkLayerSettingEXT setting_frameset_value{};
+    setting_frameset_value.pLayerName = "VK_LAYER_LUNARG_test";
+    setting_frameset_value.pSettingName = "frameset_value";
+    setting_frameset_value.type = VK_LAYER_SETTING_TYPE_UINT32_EXT;
+    setting_frameset_value.pValues = &value_frameset;
+    setting_frameset_value.valueCount = sizeof(VkuFrameset) / sizeof(VkuFrameset::count);
+    settingsB.push_back(setting_frameset_value);
+
+    VkLayerSettingsCreateInfoEXT create_infoB;
+    create_infoB.sType = VK_STRUCTURE_TYPE_LAYER_SETTINGS_CREATE_INFO_EXT;
+    create_infoB.pNext = nullptr;
+    create_infoB.settingCount = static_cast<uint32_t>(settingsB.size());
+    create_infoB.pSettings = &settingsB[0];
+
+    // Chain the VkLayerSettingsCreateInfoEXT
+    create_infoA.pNext = &create_infoB;
+
+    const char* setting_names[] = {"int32_value", "int64_value", "uint32_value", "uint64_value", "float_value", "double_value"};
+    const std::uint32_t setting_name_count = static_cast<std::uint32_t>(std::size(setting_names));
+
+    uint32_t unknown_settings_count = 0;
+    vkuGetUnknownSettings(&create_infoA, setting_name_count, setting_names, &unknown_settings_count, nullptr);
+    EXPECT_EQ(2, unknown_settings_count);
+
+    std::vector<const char*> unknown_settings(unknown_settings_count);
+
+    unknown_settings_count = 1;
+    vkuGetUnknownSettings(&create_infoA, setting_name_count, setting_names, &unknown_settings_count, &unknown_settings[0]);
+    EXPECT_EQ(1, unknown_settings_count);
+    EXPECT_STREQ("bool_value", unknown_settings[0]);
+
+    unknown_settings_count = 2;
+    vkuGetUnknownSettings(&create_infoA, setting_name_count, setting_names, &unknown_settings_count, &unknown_settings[0]);
+
+    EXPECT_STREQ("bool_value", unknown_settings[0]);
+    EXPECT_STREQ("frameset_value", unknown_settings[1]);
 }
