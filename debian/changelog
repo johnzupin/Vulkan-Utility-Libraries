@@ -1,3 +1,218 @@
+vulkan-utility-libraries (1.3.273.0~rc1-1lunarg22.04-1) jammy; urgency=medium
+
+  [ Christophe ]
+  * layer: Add minimum setting reflection
+  * layer: Fix vkEnumerateInstanceLayerSettingsEXT on Windows C.I.
+
+  [ Juan Ramos ]
+  * Add testing for vk_enum_string_helper.h
+
+  [ Christophe ]
+  * layer: Disable layer settings registry
+  * layer: clean up API
+  * layer: Fix API naming to follow convention
+
+  [ Mike Schuchardt ]
+  * build: Move include dir to public config
+
+  [ Juan Ramos ]
+  * tests: Ensure vk_enum_string_helper.h is C compatible
+
+  [ Christophe ]
+  * layer: Use a different sType than the private EXT_layer_settings
+
+  [ Juan Ramos ]
+  * Remove clang-tidy comments from vk_enum_string_helper.h
+
+  [ Charles Giessen ]
+  * util: Fixup and add Dispatch Table header
+
+  [ Juan Ramos ]
+  * ci: Test CMake Minimum
+  * cmake: Fix 3.17.2 support
+  * Fix gn build
+
+  [ Mike Schuchardt ]
+  * build: Update to header 1.3.262
+
+  [ unknown ]
+  * headers: Fix dispatch table formatting
+
+  [ Christophe ]
+  * layer: remove VK_LAYER_SETTING_TYPE_FRAMESET_EXT
+
+  [ Mike Schuchardt ]
+  * build: Add header dependency to GN build
+  * Fix Windows build with /p:CharacterSet=Unicode
+
+  [ Christophe ]
+  * layer: Fix env variable trim modes
+  * layer: Add screenshot layer workaround for setting compatibility
+  * layer: Add 'on' and 'off' for bool layer settings for API dump comp
+
+  [ Mike Schuchardt ]
+  * build: Update to header 1.3.263
+  * Fix -Wshadow warning
+
+  [ Christophe ]
+  * cmake: Add a function to setup all build targets with the same strictness
+
+  [ Juan Ramos ]
+  * Ensure all header files shipped have the vk_ prefix
+
+  [ Mike Schuchardt ]
+  * build: Update to header 1.3.264
+
+  [ unknown ]
+  * src: Add vk_format_utils.h to UtilityHeaders
+
+  [ Juan Ramos ]
+  * cmake: Fix accidentally exporting warnings
+
+  [ Christophe ]
+  * layer: Add features to list unknown settings
+
+  [ Juan Ramos ]
+  * Use vku prefix for vk_dispatch_table.h interface
+
+  [ Christophe ]
+  * layer: Simplify code using vkGetUnknownSettings
+  * layer: Add CPP version of GetUnknownSettings
+
+  [ Brad Grantham ]
+  * remove a redundant return and fix a compiler warning
+
+  [ Christophe ]
+  * cmake: Add unreachable code check with GCC and Clang
+  * layer: Add env var prefix override for back compatibility
+
+  [ unknown ]
+  * util: Add vk_struct_helper.hpp
+
+  [ Juan Ramos ]
+  * git: Add .gitattributes
+  * Ensure consistent usage of vku in PUBLIC header files
+
+  [ Christophe ]
+  * docs: Add layer configuration documentation
+  * layer: Add multiple VkLayerSettingsCreateInfo support
+
+  [ Juan Ramos ]
+  * doc: Update README.md with project description
+  * ci: Add chromium build
+  * gn: Add stub file to ensure header only files are checked
+  * ctest: Fix timeout
+
+  [ James Price ]
+  * Remove extra semicolon after member definition
+
+  [ Juan Ramos ]
+  * cmake: Export library to standardize compiler/linker options
+  * Fix compiler warnings
+  * cmake: Add -Wextra-semi
+
+  [ Mike Schuchardt ]
+  * build: Update to header 1.3.265
+
+  [ Juan Ramos ]
+  * Fix Clang on Windows build
+  * ci: Ensure generated files are up to date
+
+  [ Mike Schuchardt ]
+  * build: Update to header 1.3.266
+
+  [ Juan Ramos ]
+  * cmake: Fix code duplication for test code
+  * Fix doc for vkuFormatIsXChromaSubsampled
+
+  [ unknown ]
+  * Add GetObjectType helper to struct_helper
+  * Fix base_generator vendorTags logic
+
+  [ Mike Schuchardt ]
+  * Make GetObjectType specializations inline
+
+  [ Daniel Rakos ]
+  * build: API parameterization
+
+  [ Charles Giessen ]
+  * util: Fix vku::GetObjectType() broken for 32 bit builds
+
+  [ Juan Ramos ]
+  * cmake: Only create 1 test executable
+  * ci: Add armeabi-v7a to CI
+
+  [ Mike Schuchardt ]
+  * build: Update to header 1.3.267
+
+  [ Juan Ramos ]
+  * cmake: Don't install .clang-format
+  * tests: Update gtest to v1.14.0
+
+  [ Mike Schuchardt ]
+  * build: Update to header 1.3.268
+
+  [ Juan Ramos ]
+  * ci: Add dependabot
+
+  [ dependabot[bot] ]
+  * build(deps): Bump fsfe/reuse-action from 1 to 2
+
+  [ dependabot[bot] ]
+  * build(deps): Bump actions/checkout from 3 to 4
+  * ci: Fix forking workflow regression
+
+  [ Charles Giessen ]
+  * Unset env-var in layer tests
+  * Remove consecutive platform defines
+
+  [ Mike Schuchardt ]
+  * build: Update to header 1.3.269
+
+  [ Daniel Rakos ]
+  * scripts: Port improved extension filtering code
+
+  [ Mike Schuchardt ]
+  * build: Update to header 1.3.270
+
+  [ Juan Ramos ]
+  * ci: Add clang-format to CI
+  * Update UPDATE_DEPS
+
+  [ kocdemir ]
+  * Fix default env setting prefix for Android
+
+  [ Juan Ramos ]
+  * Simplify integration testing by adding it to ctest
+
+  [ Mike Schuchardt ]
+  * build: Update to header 1.3.271
+
+  [ Juan Ramos ]
+  * cmake: Improve packaging
+
+  [ Mike Schuchardt ]
+  * build: Update to header 1.3.272
+
+  [ Juan Ramos ]
+  * Update magic_enum to v0.9.5
+  * Minor improvements to VK_EXT_layer_settings documentation
+  * ci: Add Windows ARM to CI
+
+  [ Mike Schuchardt ]
+  * build: Update to header 1.3.273
+
+  [ dependabot[bot] ]
+  * build(deps): Bump actions/setup-python from 4 to 5
+
+  [ Daniel Rakos ]
+  * build: Make find_package logic more robust
+
+  [ John Zupin ]
+  * packaging: debian: use a dev package
+
+ -- john <john@odin>  Wed, 13 Dec 2023 14:08:36 -0700
+
 vulkan-utility-libraries (1.3.261.0~rc1-1lunarg22.04-1) jammy; urgency=medium
 
   [ Christophe ]
