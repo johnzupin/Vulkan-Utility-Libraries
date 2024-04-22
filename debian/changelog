@@ -1,3 +1,28 @@
+vulkan-utility-libraries (1.3.282.0~rc1-1lunarg20.04-1) focal; urgency=medium
+
+  [ Mike Schuchardt ]
+  * build: Update to header 1.3.281
+
+  [ Jeremy Gebben ]
+  * scripts: Make gn.py use check_call
+  * Move vk_safe_struct to VUL
+  * utils: Add custom containers from vvl
+
+  [ spencer-lunarg ]
+  * scripts: Update generate_source.py to take mulitple targets
+  * safestruct: Remove safe_VkDescriptorDataEXT
+
+  [ Aaron Ruby ]
+  * safestruct: Add QNX platform types to abstract_types list
+
+  [ Alex Rønne Petersen ]
+  * Fix update_deps.py script to handle Windows Arm64.
+
+  [ Mike Schuchardt ]
+  * build: Update to header 1.3.282
+
+ -- john <john@odin>  Mon, 22 Apr 2024 16:24:23 -0600
+
 vulkan-utility-libraries (1.3.280.0~rc1-1lunarg20.04-1) focal; urgency=medium
 
   [ Mike Schuchardt ]
