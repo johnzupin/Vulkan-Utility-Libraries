@@ -1,3 +1,36 @@
+vulkan-utility-libraries (1.3.296.0~rc1-1lunarg22.04-1) jammy; urgency=medium
+
+  [ Arno ]
+  * safestruct: Accessors for non trivial globals
+
+  [ ziga-lunarg ]
+  * build: Update to header 1.3.291
+  * build: Update to header 1.3.292
+
+  [ Mike Schuchardt ]
+  * build: Update to header 1.3.293
+  * build: Update to header 1.3.294
+  * build: Update to header 1.3.295
+  * safestruct: Add VkPipelineCreatInfoKHR workaround
+
+  [ sjfricke ]
+  * safe: Fix VK_EXT_sample_locations
+
+  [ Spencer Fricke ]
+  * scripts: Better warning for getting reg.py
+
+  [ ziga-lunarg ]
+  * tests: Fix windows warnings
+
+  [ spencer-lunarg ]
+  * build: Update to header 1.3.296
+
+  [ vrepetsky ]
+  * Fix usage of __system_property_read_callback for Android<26
+  * Update layer_settings_manager.cpp
+
+ -- john <john@odin>  Tue, 01 Oct 2024 09:59:14 -0600
+
 vulkan-utility-libraries (1.3.290.0~rc1-1lunarg22.04-1) jammy; urgency=medium
 
   [ Mike Schuchardt ]
