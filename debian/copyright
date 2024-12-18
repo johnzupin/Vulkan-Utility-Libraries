@@ -4,27 +4,45 @@ Upstream-Contact: KhronosGroup
 Source: https://github.com/KhronosGroup/Vulkan-Utility-Libraries
 
 Files: *
-Copyright: <years> <likewise for another author>
-           <years> <put author's name and email here>
+Copyright: 2023, The Khronos Group Inc
 License: <special license>
 
-Files: .github/*
+Files: .clang-format
+       .gitattributes
+       .github/*
+       BUILD.gn
+       BUILD.md
        CMakeLists.txt
-       LICENSE.txt
+       CODE_OF_CONDUCT.md
+       LICENSE.md
+       LICENSES/*
+       README.md
+       docs/*
        include/*
        scripts/CMakeLists.txt
+       scripts/common_ci.py
+       scripts/generate_source.py
+       scripts/generators/*
+       scripts/gn/*
        scripts/update_deps.py
        src/*
-       tests/CMakeLists.txt
-       tests/test_util.cpp
-Copyright: 2018-2023, LunarG, Inc
+       tests/*
+Copyright: 2015-2024, Google Inc
+           2015-2024, LunarG, Inc
+           2022-2024, RasterGrid Kft
            2017, The Glslang Authors
-           2023, The Khronos Group Inc
-           2018-2023, Valve Corporation
+           2015-2024, The Khronos Group Inc
+           2015-2024, Valve Corporation
 License: Apache-2
 
+Files: docs/layer_configuration.md
+Copyright: 2023, LunarG, Inc
+           2023, The Khronos Group Inc
+           2023, Valve Corporation
+License: Apache-2 or CC-BY-ND-4
+
 Files: debian/*
-Copyright: 2023, john <johnz@lunarg.com>
+Copyright: 2023, LunarG Inc <johnz@lunarg.com>
 License: GPL-2+
 
 License: <special license>
@@ -236,6 +254,8 @@ License: Apache-2
  See the License for the specific language governing permissions and
  limitations under the License.
 
+License: CC-BY-ND-4
+Comment: Add the corresponding license text here
 
 License: GPL-2+
  This package is free software; you can redistribute it and/or modify
