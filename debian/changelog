@@ -1,3 +1,58 @@
+vulkan-utility-libraries (1.4.304.0~rc1-1lunarg22.04-1) jammy; urgency=medium
+
+  [ ziga-lunarg ]
+  * build: Update to header 1.3.297
+
+  [ Mike Schuchardt ]
+  * build: Update to header 1.3.298
+  * build: Update to header 1.3.299
+  * build: Update to header 1.3.300
+
+  [ Máté Ferenc Nagy-Egri ]
+  * scripts: Handle remote URL change in update_deps.py
+  * scripts: Fix user self-hosting dependency in update_deps.py
+
+  [ Takuto Ikuta ]
+  * Add a missing header for `std::strtoul`
+
+  [ Mike Schuchardt ]
+  * build: Update to header 1.3.301
+
+  [ Spencer Fricke ]
+  * ci: Build dependency for Github Actions
+
+  [ Jeremy Gebben ]
+  * scripts: Make generate_source.py look harder for vk.xml
+
+  [ Eric Werness ]
+  * Traverse geometry pNext for safe structs
+
+  [ dependabot[bot] ]
+  * build(deps): Bump fsfe/reuse-action from 4 to 5
+
+  [ Mike Schuchardt ]
+  * build: Update to header 1.3.302
+  * build: Update to header 1.4.303
+
+  [ dependabot[bot] ]
+  * build(deps): Bump jidicula/clang-format-action from 4.13.0 to 4.14.0
+
+  [ Christophe ]
+  * layer: Add error code to C++ overrides
+
+  [ Takuto Ikuta ]
+  * build: Add missing include headers
+  * Update safe_struct_generator.py
+  * Update vk_safe_struct_ext.cpp
+
+  [ John Zupin ]
+  * packaging: debian: update copyright
+
+  [ Mike Schuchardt ]
+  * build: Update to header 1.4.304
+
+ -- john <john@odin>  Mon, 06 Jan 2025 14:38:04 -0700
+
 vulkan-utility-libraries (1.3.296.0~rc1-1lunarg22.04-1) jammy; urgency=medium
 
   [ Arno ]
