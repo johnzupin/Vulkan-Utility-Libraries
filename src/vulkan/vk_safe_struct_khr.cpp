@@ -3,10 +3,10 @@
 
 /***************************************************************************
  *
- * Copyright (c) 2015-2024 The Khronos Group Inc.
- * Copyright (c) 2015-2024 Valve Corporation
- * Copyright (c) 2015-2024 LunarG, Inc.
- * Copyright (c) 2015-2024 Google Inc.
+ * Copyright (c) 2015-2025 The Khronos Group Inc.
+ * Copyright (c) 2015-2025 Valve Corporation
+ * Copyright (c) 2015-2025 LunarG, Inc.
+ * Copyright (c) 2015-2025 Google Inc.
  *
  * SPDX-License-Identifier: Apache-2.0
  *
@@ -14672,6 +14672,506 @@ void safe_VkPhysicalDeviceLayeredApiVulkanPropertiesKHR::initialize(
     pNext = SafePnextCopy(copy_src->pNext);
 }
 
+safe_VkPhysicalDeviceMaintenance8FeaturesKHR::safe_VkPhysicalDeviceMaintenance8FeaturesKHR(
+    const VkPhysicalDeviceMaintenance8FeaturesKHR* in_struct, [[maybe_unused]] PNextCopyState* copy_state, bool copy_pnext)
+    : sType(in_struct->sType), maintenance8(in_struct->maintenance8) {
+    if (copy_pnext) {
+        pNext = SafePnextCopy(in_struct->pNext, copy_state);
+    }
+}
+
+safe_VkPhysicalDeviceMaintenance8FeaturesKHR::safe_VkPhysicalDeviceMaintenance8FeaturesKHR()
+    : sType(VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_MAINTENANCE_8_FEATURES_KHR), pNext(nullptr), maintenance8() {}
+
+safe_VkPhysicalDeviceMaintenance8FeaturesKHR::safe_VkPhysicalDeviceMaintenance8FeaturesKHR(
+    const safe_VkPhysicalDeviceMaintenance8FeaturesKHR& copy_src) {
+    sType = copy_src.sType;
+    maintenance8 = copy_src.maintenance8;
+    pNext = SafePnextCopy(copy_src.pNext);
+}
+
+safe_VkPhysicalDeviceMaintenance8FeaturesKHR& safe_VkPhysicalDeviceMaintenance8FeaturesKHR::operator=(
+    const safe_VkPhysicalDeviceMaintenance8FeaturesKHR& copy_src) {
+    if (&copy_src == this) return *this;
+
+    FreePnextChain(pNext);
+
+    sType = copy_src.sType;
+    maintenance8 = copy_src.maintenance8;
+    pNext = SafePnextCopy(copy_src.pNext);
+
+    return *this;
+}
+
+safe_VkPhysicalDeviceMaintenance8FeaturesKHR::~safe_VkPhysicalDeviceMaintenance8FeaturesKHR() { FreePnextChain(pNext); }
+
+void safe_VkPhysicalDeviceMaintenance8FeaturesKHR::initialize(const VkPhysicalDeviceMaintenance8FeaturesKHR* in_struct,
+                                                              [[maybe_unused]] PNextCopyState* copy_state) {
+    FreePnextChain(pNext);
+    sType = in_struct->sType;
+    maintenance8 = in_struct->maintenance8;
+    pNext = SafePnextCopy(in_struct->pNext, copy_state);
+}
+
+void safe_VkPhysicalDeviceMaintenance8FeaturesKHR::initialize(const safe_VkPhysicalDeviceMaintenance8FeaturesKHR* copy_src,
+                                                              [[maybe_unused]] PNextCopyState* copy_state) {
+    sType = copy_src->sType;
+    maintenance8 = copy_src->maintenance8;
+    pNext = SafePnextCopy(copy_src->pNext);
+}
+
+safe_VkMemoryBarrierAccessFlags3KHR::safe_VkMemoryBarrierAccessFlags3KHR(const VkMemoryBarrierAccessFlags3KHR* in_struct,
+                                                                         [[maybe_unused]] PNextCopyState* copy_state,
+                                                                         bool copy_pnext)
+    : sType(in_struct->sType), srcAccessMask3(in_struct->srcAccessMask3), dstAccessMask3(in_struct->dstAccessMask3) {
+    if (copy_pnext) {
+        pNext = SafePnextCopy(in_struct->pNext, copy_state);
+    }
+}
+
+safe_VkMemoryBarrierAccessFlags3KHR::safe_VkMemoryBarrierAccessFlags3KHR()
+    : sType(VK_STRUCTURE_TYPE_MEMORY_BARRIER_ACCESS_FLAGS_3_KHR), pNext(nullptr), srcAccessMask3(), dstAccessMask3() {}
+
+safe_VkMemoryBarrierAccessFlags3KHR::safe_VkMemoryBarrierAccessFlags3KHR(const safe_VkMemoryBarrierAccessFlags3KHR& copy_src) {
+    sType = copy_src.sType;
+    srcAccessMask3 = copy_src.srcAccessMask3;
+    dstAccessMask3 = copy_src.dstAccessMask3;
+    pNext = SafePnextCopy(copy_src.pNext);
+}
+
+safe_VkMemoryBarrierAccessFlags3KHR& safe_VkMemoryBarrierAccessFlags3KHR::operator=(
+    const safe_VkMemoryBarrierAccessFlags3KHR& copy_src) {
+    if (&copy_src == this) return *this;
+
+    FreePnextChain(pNext);
+
+    sType = copy_src.sType;
+    srcAccessMask3 = copy_src.srcAccessMask3;
+    dstAccessMask3 = copy_src.dstAccessMask3;
+    pNext = SafePnextCopy(copy_src.pNext);
+
+    return *this;
+}
+
+safe_VkMemoryBarrierAccessFlags3KHR::~safe_VkMemoryBarrierAccessFlags3KHR() { FreePnextChain(pNext); }
+
+void safe_VkMemoryBarrierAccessFlags3KHR::initialize(const VkMemoryBarrierAccessFlags3KHR* in_struct,
+                                                     [[maybe_unused]] PNextCopyState* copy_state) {
+    FreePnextChain(pNext);
+    sType = in_struct->sType;
+    srcAccessMask3 = in_struct->srcAccessMask3;
+    dstAccessMask3 = in_struct->dstAccessMask3;
+    pNext = SafePnextCopy(in_struct->pNext, copy_state);
+}
+
+void safe_VkMemoryBarrierAccessFlags3KHR::initialize(const safe_VkMemoryBarrierAccessFlags3KHR* copy_src,
+                                                     [[maybe_unused]] PNextCopyState* copy_state) {
+    sType = copy_src->sType;
+    srcAccessMask3 = copy_src->srcAccessMask3;
+    dstAccessMask3 = copy_src->dstAccessMask3;
+    pNext = SafePnextCopy(copy_src->pNext);
+}
+
+safe_VkPhysicalDeviceVideoMaintenance2FeaturesKHR::safe_VkPhysicalDeviceVideoMaintenance2FeaturesKHR(
+    const VkPhysicalDeviceVideoMaintenance2FeaturesKHR* in_struct, [[maybe_unused]] PNextCopyState* copy_state, bool copy_pnext)
+    : sType(in_struct->sType), videoMaintenance2(in_struct->videoMaintenance2) {
+    if (copy_pnext) {
+        pNext = SafePnextCopy(in_struct->pNext, copy_state);
+    }
+}
+
+safe_VkPhysicalDeviceVideoMaintenance2FeaturesKHR::safe_VkPhysicalDeviceVideoMaintenance2FeaturesKHR()
+    : sType(VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_VIDEO_MAINTENANCE_2_FEATURES_KHR), pNext(nullptr), videoMaintenance2() {}
+
+safe_VkPhysicalDeviceVideoMaintenance2FeaturesKHR::safe_VkPhysicalDeviceVideoMaintenance2FeaturesKHR(
+    const safe_VkPhysicalDeviceVideoMaintenance2FeaturesKHR& copy_src) {
+    sType = copy_src.sType;
+    videoMaintenance2 = copy_src.videoMaintenance2;
+    pNext = SafePnextCopy(copy_src.pNext);
+}
+
+safe_VkPhysicalDeviceVideoMaintenance2FeaturesKHR& safe_VkPhysicalDeviceVideoMaintenance2FeaturesKHR::operator=(
+    const safe_VkPhysicalDeviceVideoMaintenance2FeaturesKHR& copy_src) {
+    if (&copy_src == this) return *this;
+
+    FreePnextChain(pNext);
+
+    sType = copy_src.sType;
+    videoMaintenance2 = copy_src.videoMaintenance2;
+    pNext = SafePnextCopy(copy_src.pNext);
+
+    return *this;
+}
+
+safe_VkPhysicalDeviceVideoMaintenance2FeaturesKHR::~safe_VkPhysicalDeviceVideoMaintenance2FeaturesKHR() { FreePnextChain(pNext); }
+
+void safe_VkPhysicalDeviceVideoMaintenance2FeaturesKHR::initialize(const VkPhysicalDeviceVideoMaintenance2FeaturesKHR* in_struct,
+                                                                   [[maybe_unused]] PNextCopyState* copy_state) {
+    FreePnextChain(pNext);
+    sType = in_struct->sType;
+    videoMaintenance2 = in_struct->videoMaintenance2;
+    pNext = SafePnextCopy(in_struct->pNext, copy_state);
+}
+
+void safe_VkPhysicalDeviceVideoMaintenance2FeaturesKHR::initialize(
+    const safe_VkPhysicalDeviceVideoMaintenance2FeaturesKHR* copy_src, [[maybe_unused]] PNextCopyState* copy_state) {
+    sType = copy_src->sType;
+    videoMaintenance2 = copy_src->videoMaintenance2;
+    pNext = SafePnextCopy(copy_src->pNext);
+}
+
+safe_VkVideoDecodeH264InlineSessionParametersInfoKHR::safe_VkVideoDecodeH264InlineSessionParametersInfoKHR(
+    const VkVideoDecodeH264InlineSessionParametersInfoKHR* in_struct, [[maybe_unused]] PNextCopyState* copy_state, bool copy_pnext)
+    : sType(in_struct->sType), pStdSPS(nullptr), pStdPPS(nullptr) {
+    if (copy_pnext) {
+        pNext = SafePnextCopy(in_struct->pNext, copy_state);
+    }
+    if (in_struct->pStdSPS) {
+        pStdSPS = new StdVideoH264SequenceParameterSet(*in_struct->pStdSPS);
+    }
+
+    if (in_struct->pStdPPS) {
+        pStdPPS = new StdVideoH264PictureParameterSet(*in_struct->pStdPPS);
+    }
+}
+
+safe_VkVideoDecodeH264InlineSessionParametersInfoKHR::safe_VkVideoDecodeH264InlineSessionParametersInfoKHR()
+    : sType(VK_STRUCTURE_TYPE_VIDEO_DECODE_H264_INLINE_SESSION_PARAMETERS_INFO_KHR),
+      pNext(nullptr),
+      pStdSPS(nullptr),
+      pStdPPS(nullptr) {}
+
+safe_VkVideoDecodeH264InlineSessionParametersInfoKHR::safe_VkVideoDecodeH264InlineSessionParametersInfoKHR(
+    const safe_VkVideoDecodeH264InlineSessionParametersInfoKHR& copy_src) {
+    sType = copy_src.sType;
+    pStdSPS = nullptr;
+    pStdPPS = nullptr;
+    pNext = SafePnextCopy(copy_src.pNext);
+
+    if (copy_src.pStdSPS) {
+        pStdSPS = new StdVideoH264SequenceParameterSet(*copy_src.pStdSPS);
+    }
+
+    if (copy_src.pStdPPS) {
+        pStdPPS = new StdVideoH264PictureParameterSet(*copy_src.pStdPPS);
+    }
+}
+
+safe_VkVideoDecodeH264InlineSessionParametersInfoKHR& safe_VkVideoDecodeH264InlineSessionParametersInfoKHR::operator=(
+    const safe_VkVideoDecodeH264InlineSessionParametersInfoKHR& copy_src) {
+    if (&copy_src == this) return *this;
+
+    if (pStdSPS) delete pStdSPS;
+    if (pStdPPS) delete pStdPPS;
+    FreePnextChain(pNext);
+
+    sType = copy_src.sType;
+    pStdSPS = nullptr;
+    pStdPPS = nullptr;
+    pNext = SafePnextCopy(copy_src.pNext);
+
+    if (copy_src.pStdSPS) {
+        pStdSPS = new StdVideoH264SequenceParameterSet(*copy_src.pStdSPS);
+    }
+
+    if (copy_src.pStdPPS) {
+        pStdPPS = new StdVideoH264PictureParameterSet(*copy_src.pStdPPS);
+    }
+
+    return *this;
+}
+
+safe_VkVideoDecodeH264InlineSessionParametersInfoKHR::~safe_VkVideoDecodeH264InlineSessionParametersInfoKHR() {
+    if (pStdSPS) delete pStdSPS;
+    if (pStdPPS) delete pStdPPS;
+    FreePnextChain(pNext);
+}
+
+void safe_VkVideoDecodeH264InlineSessionParametersInfoKHR::initialize(
+    const VkVideoDecodeH264InlineSessionParametersInfoKHR* in_struct, [[maybe_unused]] PNextCopyState* copy_state) {
+    if (pStdSPS) delete pStdSPS;
+    if (pStdPPS) delete pStdPPS;
+    FreePnextChain(pNext);
+    sType = in_struct->sType;
+    pStdSPS = nullptr;
+    pStdPPS = nullptr;
+    pNext = SafePnextCopy(in_struct->pNext, copy_state);
+
+    if (in_struct->pStdSPS) {
+        pStdSPS = new StdVideoH264SequenceParameterSet(*in_struct->pStdSPS);
+    }
+
+    if (in_struct->pStdPPS) {
+        pStdPPS = new StdVideoH264PictureParameterSet(*in_struct->pStdPPS);
+    }
+}
+
+void safe_VkVideoDecodeH264InlineSessionParametersInfoKHR::initialize(
+    const safe_VkVideoDecodeH264InlineSessionParametersInfoKHR* copy_src, [[maybe_unused]] PNextCopyState* copy_state) {
+    sType = copy_src->sType;
+    pStdSPS = nullptr;
+    pStdPPS = nullptr;
+    pNext = SafePnextCopy(copy_src->pNext);
+
+    if (copy_src->pStdSPS) {
+        pStdSPS = new StdVideoH264SequenceParameterSet(*copy_src->pStdSPS);
+    }
+
+    if (copy_src->pStdPPS) {
+        pStdPPS = new StdVideoH264PictureParameterSet(*copy_src->pStdPPS);
+    }
+}
+
+safe_VkVideoDecodeH265InlineSessionParametersInfoKHR::safe_VkVideoDecodeH265InlineSessionParametersInfoKHR(
+    const VkVideoDecodeH265InlineSessionParametersInfoKHR* in_struct, [[maybe_unused]] PNextCopyState* copy_state, bool copy_pnext)
+    : sType(in_struct->sType), pStdVPS(nullptr), pStdSPS(nullptr), pStdPPS(nullptr) {
+    if (copy_pnext) {
+        pNext = SafePnextCopy(in_struct->pNext, copy_state);
+    }
+    if (in_struct->pStdVPS) {
+        pStdVPS = new StdVideoH265VideoParameterSet(*in_struct->pStdVPS);
+    }
+
+    if (in_struct->pStdSPS) {
+        pStdSPS = new StdVideoH265SequenceParameterSet(*in_struct->pStdSPS);
+    }
+
+    if (in_struct->pStdPPS) {
+        pStdPPS = new StdVideoH265PictureParameterSet(*in_struct->pStdPPS);
+    }
+}
+
+safe_VkVideoDecodeH265InlineSessionParametersInfoKHR::safe_VkVideoDecodeH265InlineSessionParametersInfoKHR()
+    : sType(VK_STRUCTURE_TYPE_VIDEO_DECODE_H265_INLINE_SESSION_PARAMETERS_INFO_KHR),
+      pNext(nullptr),
+      pStdVPS(nullptr),
+      pStdSPS(nullptr),
+      pStdPPS(nullptr) {}
+
+safe_VkVideoDecodeH265InlineSessionParametersInfoKHR::safe_VkVideoDecodeH265InlineSessionParametersInfoKHR(
+    const safe_VkVideoDecodeH265InlineSessionParametersInfoKHR& copy_src) {
+    sType = copy_src.sType;
+    pStdVPS = nullptr;
+    pStdSPS = nullptr;
+    pStdPPS = nullptr;
+    pNext = SafePnextCopy(copy_src.pNext);
+
+    if (copy_src.pStdVPS) {
+        pStdVPS = new StdVideoH265VideoParameterSet(*copy_src.pStdVPS);
+    }
+
+    if (copy_src.pStdSPS) {
+        pStdSPS = new StdVideoH265SequenceParameterSet(*copy_src.pStdSPS);
+    }
+
+    if (copy_src.pStdPPS) {
+        pStdPPS = new StdVideoH265PictureParameterSet(*copy_src.pStdPPS);
+    }
+}
+
+safe_VkVideoDecodeH265InlineSessionParametersInfoKHR& safe_VkVideoDecodeH265InlineSessionParametersInfoKHR::operator=(
+    const safe_VkVideoDecodeH265InlineSessionParametersInfoKHR& copy_src) {
+    if (&copy_src == this) return *this;
+
+    if (pStdVPS) delete pStdVPS;
+    if (pStdSPS) delete pStdSPS;
+    if (pStdPPS) delete pStdPPS;
+    FreePnextChain(pNext);
+
+    sType = copy_src.sType;
+    pStdVPS = nullptr;
+    pStdSPS = nullptr;
+    pStdPPS = nullptr;
+    pNext = SafePnextCopy(copy_src.pNext);
+
+    if (copy_src.pStdVPS) {
+        pStdVPS = new StdVideoH265VideoParameterSet(*copy_src.pStdVPS);
+    }
+
+    if (copy_src.pStdSPS) {
+        pStdSPS = new StdVideoH265SequenceParameterSet(*copy_src.pStdSPS);
+    }
+
+    if (copy_src.pStdPPS) {
+        pStdPPS = new StdVideoH265PictureParameterSet(*copy_src.pStdPPS);
+    }
+
+    return *this;
+}
+
+safe_VkVideoDecodeH265InlineSessionParametersInfoKHR::~safe_VkVideoDecodeH265InlineSessionParametersInfoKHR() {
+    if (pStdVPS) delete pStdVPS;
+    if (pStdSPS) delete pStdSPS;
+    if (pStdPPS) delete pStdPPS;
+    FreePnextChain(pNext);
+}
+
+void safe_VkVideoDecodeH265InlineSessionParametersInfoKHR::initialize(
+    const VkVideoDecodeH265InlineSessionParametersInfoKHR* in_struct, [[maybe_unused]] PNextCopyState* copy_state) {
+    if (pStdVPS) delete pStdVPS;
+    if (pStdSPS) delete pStdSPS;
+    if (pStdPPS) delete pStdPPS;
+    FreePnextChain(pNext);
+    sType = in_struct->sType;
+    pStdVPS = nullptr;
+    pStdSPS = nullptr;
+    pStdPPS = nullptr;
+    pNext = SafePnextCopy(in_struct->pNext, copy_state);
+
+    if (in_struct->pStdVPS) {
+        pStdVPS = new StdVideoH265VideoParameterSet(*in_struct->pStdVPS);
+    }
+
+    if (in_struct->pStdSPS) {
+        pStdSPS = new StdVideoH265SequenceParameterSet(*in_struct->pStdSPS);
+    }
+
+    if (in_struct->pStdPPS) {
+        pStdPPS = new StdVideoH265PictureParameterSet(*in_struct->pStdPPS);
+    }
+}
+
+void safe_VkVideoDecodeH265InlineSessionParametersInfoKHR::initialize(
+    const safe_VkVideoDecodeH265InlineSessionParametersInfoKHR* copy_src, [[maybe_unused]] PNextCopyState* copy_state) {
+    sType = copy_src->sType;
+    pStdVPS = nullptr;
+    pStdSPS = nullptr;
+    pStdPPS = nullptr;
+    pNext = SafePnextCopy(copy_src->pNext);
+
+    if (copy_src->pStdVPS) {
+        pStdVPS = new StdVideoH265VideoParameterSet(*copy_src->pStdVPS);
+    }
+
+    if (copy_src->pStdSPS) {
+        pStdSPS = new StdVideoH265SequenceParameterSet(*copy_src->pStdSPS);
+    }
+
+    if (copy_src->pStdPPS) {
+        pStdPPS = new StdVideoH265PictureParameterSet(*copy_src->pStdPPS);
+    }
+}
+
+safe_VkVideoDecodeAV1InlineSessionParametersInfoKHR::safe_VkVideoDecodeAV1InlineSessionParametersInfoKHR(
+    const VkVideoDecodeAV1InlineSessionParametersInfoKHR* in_struct, [[maybe_unused]] PNextCopyState* copy_state, bool copy_pnext)
+    : sType(in_struct->sType), pStdSequenceHeader(nullptr) {
+    if (copy_pnext) {
+        pNext = SafePnextCopy(in_struct->pNext, copy_state);
+    }
+    if (in_struct->pStdSequenceHeader) {
+        pStdSequenceHeader = new StdVideoAV1SequenceHeader(*in_struct->pStdSequenceHeader);
+    }
+}
+
+safe_VkVideoDecodeAV1InlineSessionParametersInfoKHR::safe_VkVideoDecodeAV1InlineSessionParametersInfoKHR()
+    : sType(VK_STRUCTURE_TYPE_VIDEO_DECODE_AV1_INLINE_SESSION_PARAMETERS_INFO_KHR), pNext(nullptr), pStdSequenceHeader(nullptr) {}
+
+safe_VkVideoDecodeAV1InlineSessionParametersInfoKHR::safe_VkVideoDecodeAV1InlineSessionParametersInfoKHR(
+    const safe_VkVideoDecodeAV1InlineSessionParametersInfoKHR& copy_src) {
+    sType = copy_src.sType;
+    pStdSequenceHeader = nullptr;
+    pNext = SafePnextCopy(copy_src.pNext);
+
+    if (copy_src.pStdSequenceHeader) {
+        pStdSequenceHeader = new StdVideoAV1SequenceHeader(*copy_src.pStdSequenceHeader);
+    }
+}
+
+safe_VkVideoDecodeAV1InlineSessionParametersInfoKHR& safe_VkVideoDecodeAV1InlineSessionParametersInfoKHR::operator=(
+    const safe_VkVideoDecodeAV1InlineSessionParametersInfoKHR& copy_src) {
+    if (&copy_src == this) return *this;
+
+    if (pStdSequenceHeader) delete pStdSequenceHeader;
+    FreePnextChain(pNext);
+
+    sType = copy_src.sType;
+    pStdSequenceHeader = nullptr;
+    pNext = SafePnextCopy(copy_src.pNext);
+
+    if (copy_src.pStdSequenceHeader) {
+        pStdSequenceHeader = new StdVideoAV1SequenceHeader(*copy_src.pStdSequenceHeader);
+    }
+
+    return *this;
+}
+
+safe_VkVideoDecodeAV1InlineSessionParametersInfoKHR::~safe_VkVideoDecodeAV1InlineSessionParametersInfoKHR() {
+    if (pStdSequenceHeader) delete pStdSequenceHeader;
+    FreePnextChain(pNext);
+}
+
+void safe_VkVideoDecodeAV1InlineSessionParametersInfoKHR::initialize(
+    const VkVideoDecodeAV1InlineSessionParametersInfoKHR* in_struct, [[maybe_unused]] PNextCopyState* copy_state) {
+    if (pStdSequenceHeader) delete pStdSequenceHeader;
+    FreePnextChain(pNext);
+    sType = in_struct->sType;
+    pStdSequenceHeader = nullptr;
+    pNext = SafePnextCopy(in_struct->pNext, copy_state);
+
+    if (in_struct->pStdSequenceHeader) {
+        pStdSequenceHeader = new StdVideoAV1SequenceHeader(*in_struct->pStdSequenceHeader);
+    }
+}
+
+void safe_VkVideoDecodeAV1InlineSessionParametersInfoKHR::initialize(
+    const safe_VkVideoDecodeAV1InlineSessionParametersInfoKHR* copy_src, [[maybe_unused]] PNextCopyState* copy_state) {
+    sType = copy_src->sType;
+    pStdSequenceHeader = nullptr;
+    pNext = SafePnextCopy(copy_src->pNext);
+
+    if (copy_src->pStdSequenceHeader) {
+        pStdSequenceHeader = new StdVideoAV1SequenceHeader(*copy_src->pStdSequenceHeader);
+    }
+}
+
+safe_VkPhysicalDeviceDepthClampZeroOneFeaturesKHR::safe_VkPhysicalDeviceDepthClampZeroOneFeaturesKHR(
+    const VkPhysicalDeviceDepthClampZeroOneFeaturesKHR* in_struct, [[maybe_unused]] PNextCopyState* copy_state, bool copy_pnext)
+    : sType(in_struct->sType), depthClampZeroOne(in_struct->depthClampZeroOne) {
+    if (copy_pnext) {
+        pNext = SafePnextCopy(in_struct->pNext, copy_state);
+    }
+}
+
+safe_VkPhysicalDeviceDepthClampZeroOneFeaturesKHR::safe_VkPhysicalDeviceDepthClampZeroOneFeaturesKHR()
+    : sType(VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_DEPTH_CLAMP_ZERO_ONE_FEATURES_KHR), pNext(nullptr), depthClampZeroOne() {}
+
+safe_VkPhysicalDeviceDepthClampZeroOneFeaturesKHR::safe_VkPhysicalDeviceDepthClampZeroOneFeaturesKHR(
+    const safe_VkPhysicalDeviceDepthClampZeroOneFeaturesKHR& copy_src) {
+    sType = copy_src.sType;
+    depthClampZeroOne = copy_src.depthClampZeroOne;
+    pNext = SafePnextCopy(copy_src.pNext);
+}
+
+safe_VkPhysicalDeviceDepthClampZeroOneFeaturesKHR& safe_VkPhysicalDeviceDepthClampZeroOneFeaturesKHR::operator=(
+    const safe_VkPhysicalDeviceDepthClampZeroOneFeaturesKHR& copy_src) {
+    if (&copy_src == this) return *this;
+
+    FreePnextChain(pNext);
+
+    sType = copy_src.sType;
+    depthClampZeroOne = copy_src.depthClampZeroOne;
+    pNext = SafePnextCopy(copy_src.pNext);
+
+    return *this;
+}
+
+safe_VkPhysicalDeviceDepthClampZeroOneFeaturesKHR::~safe_VkPhysicalDeviceDepthClampZeroOneFeaturesKHR() { FreePnextChain(pNext); }
+
+void safe_VkPhysicalDeviceDepthClampZeroOneFeaturesKHR::initialize(const VkPhysicalDeviceDepthClampZeroOneFeaturesKHR* in_struct,
+                                                                   [[maybe_unused]] PNextCopyState* copy_state) {
+    FreePnextChain(pNext);
+    sType = in_struct->sType;
+    depthClampZeroOne = in_struct->depthClampZeroOne;
+    pNext = SafePnextCopy(in_struct->pNext, copy_state);
+}
+
+void safe_VkPhysicalDeviceDepthClampZeroOneFeaturesKHR::initialize(
+    const safe_VkPhysicalDeviceDepthClampZeroOneFeaturesKHR* copy_src, [[maybe_unused]] PNextCopyState* copy_state) {
+    sType = copy_src->sType;
+    depthClampZeroOne = copy_src->depthClampZeroOne;
+    pNext = SafePnextCopy(copy_src->pNext);
+}
+
 safe_VkDeviceOrHostAddressConstKHR::safe_VkDeviceOrHostAddressConstKHR(const VkDeviceOrHostAddressConstKHR* in_struct,
                                                                        PNextCopyState*) {
     initialize(in_struct);
@@ -14740,6 +15240,69 @@ void safe_VkDeviceOrHostAddressKHR::initialize(const safe_VkDeviceOrHostAddressK
                                                [[maybe_unused]] PNextCopyState* copy_state) {
     deviceAddress = copy_src->deviceAddress;
     hostAddress = copy_src->hostAddress;
+}
+
+safe_VkAccelerationStructureBuildSizesInfoKHR::safe_VkAccelerationStructureBuildSizesInfoKHR(
+    const VkAccelerationStructureBuildSizesInfoKHR* in_struct, [[maybe_unused]] PNextCopyState* copy_state, bool copy_pnext)
+    : sType(in_struct->sType),
+      accelerationStructureSize(in_struct->accelerationStructureSize),
+      updateScratchSize(in_struct->updateScratchSize),
+      buildScratchSize(in_struct->buildScratchSize) {
+    if (copy_pnext) {
+        pNext = SafePnextCopy(in_struct->pNext, copy_state);
+    }
+}
+
+safe_VkAccelerationStructureBuildSizesInfoKHR::safe_VkAccelerationStructureBuildSizesInfoKHR()
+    : sType(VK_STRUCTURE_TYPE_ACCELERATION_STRUCTURE_BUILD_SIZES_INFO_KHR),
+      pNext(nullptr),
+      accelerationStructureSize(),
+      updateScratchSize(),
+      buildScratchSize() {}
+
+safe_VkAccelerationStructureBuildSizesInfoKHR::safe_VkAccelerationStructureBuildSizesInfoKHR(
+    const safe_VkAccelerationStructureBuildSizesInfoKHR& copy_src) {
+    sType = copy_src.sType;
+    accelerationStructureSize = copy_src.accelerationStructureSize;
+    updateScratchSize = copy_src.updateScratchSize;
+    buildScratchSize = copy_src.buildScratchSize;
+    pNext = SafePnextCopy(copy_src.pNext);
+}
+
+safe_VkAccelerationStructureBuildSizesInfoKHR& safe_VkAccelerationStructureBuildSizesInfoKHR::operator=(
+    const safe_VkAccelerationStructureBuildSizesInfoKHR& copy_src) {
+    if (&copy_src == this) return *this;
+
+    FreePnextChain(pNext);
+
+    sType = copy_src.sType;
+    accelerationStructureSize = copy_src.accelerationStructureSize;
+    updateScratchSize = copy_src.updateScratchSize;
+    buildScratchSize = copy_src.buildScratchSize;
+    pNext = SafePnextCopy(copy_src.pNext);
+
+    return *this;
+}
+
+safe_VkAccelerationStructureBuildSizesInfoKHR::~safe_VkAccelerationStructureBuildSizesInfoKHR() { FreePnextChain(pNext); }
+
+void safe_VkAccelerationStructureBuildSizesInfoKHR::initialize(const VkAccelerationStructureBuildSizesInfoKHR* in_struct,
+                                                               [[maybe_unused]] PNextCopyState* copy_state) {
+    FreePnextChain(pNext);
+    sType = in_struct->sType;
+    accelerationStructureSize = in_struct->accelerationStructureSize;
+    updateScratchSize = in_struct->updateScratchSize;
+    buildScratchSize = in_struct->buildScratchSize;
+    pNext = SafePnextCopy(in_struct->pNext, copy_state);
+}
+
+void safe_VkAccelerationStructureBuildSizesInfoKHR::initialize(const safe_VkAccelerationStructureBuildSizesInfoKHR* copy_src,
+                                                               [[maybe_unused]] PNextCopyState* copy_state) {
+    sType = copy_src->sType;
+    accelerationStructureSize = copy_src->accelerationStructureSize;
+    updateScratchSize = copy_src->updateScratchSize;
+    buildScratchSize = copy_src->buildScratchSize;
+    pNext = SafePnextCopy(copy_src->pNext);
 }
 
 safe_VkAccelerationStructureGeometryTrianglesDataKHR::safe_VkAccelerationStructureGeometryTrianglesDataKHR(
@@ -15573,69 +16136,6 @@ void safe_VkCopyAccelerationStructureInfoKHR::initialize(const safe_VkCopyAccele
     src = copy_src->src;
     dst = copy_src->dst;
     mode = copy_src->mode;
-    pNext = SafePnextCopy(copy_src->pNext);
-}
-
-safe_VkAccelerationStructureBuildSizesInfoKHR::safe_VkAccelerationStructureBuildSizesInfoKHR(
-    const VkAccelerationStructureBuildSizesInfoKHR* in_struct, [[maybe_unused]] PNextCopyState* copy_state, bool copy_pnext)
-    : sType(in_struct->sType),
-      accelerationStructureSize(in_struct->accelerationStructureSize),
-      updateScratchSize(in_struct->updateScratchSize),
-      buildScratchSize(in_struct->buildScratchSize) {
-    if (copy_pnext) {
-        pNext = SafePnextCopy(in_struct->pNext, copy_state);
-    }
-}
-
-safe_VkAccelerationStructureBuildSizesInfoKHR::safe_VkAccelerationStructureBuildSizesInfoKHR()
-    : sType(VK_STRUCTURE_TYPE_ACCELERATION_STRUCTURE_BUILD_SIZES_INFO_KHR),
-      pNext(nullptr),
-      accelerationStructureSize(),
-      updateScratchSize(),
-      buildScratchSize() {}
-
-safe_VkAccelerationStructureBuildSizesInfoKHR::safe_VkAccelerationStructureBuildSizesInfoKHR(
-    const safe_VkAccelerationStructureBuildSizesInfoKHR& copy_src) {
-    sType = copy_src.sType;
-    accelerationStructureSize = copy_src.accelerationStructureSize;
-    updateScratchSize = copy_src.updateScratchSize;
-    buildScratchSize = copy_src.buildScratchSize;
-    pNext = SafePnextCopy(copy_src.pNext);
-}
-
-safe_VkAccelerationStructureBuildSizesInfoKHR& safe_VkAccelerationStructureBuildSizesInfoKHR::operator=(
-    const safe_VkAccelerationStructureBuildSizesInfoKHR& copy_src) {
-    if (&copy_src == this) return *this;
-
-    FreePnextChain(pNext);
-
-    sType = copy_src.sType;
-    accelerationStructureSize = copy_src.accelerationStructureSize;
-    updateScratchSize = copy_src.updateScratchSize;
-    buildScratchSize = copy_src.buildScratchSize;
-    pNext = SafePnextCopy(copy_src.pNext);
-
-    return *this;
-}
-
-safe_VkAccelerationStructureBuildSizesInfoKHR::~safe_VkAccelerationStructureBuildSizesInfoKHR() { FreePnextChain(pNext); }
-
-void safe_VkAccelerationStructureBuildSizesInfoKHR::initialize(const VkAccelerationStructureBuildSizesInfoKHR* in_struct,
-                                                               [[maybe_unused]] PNextCopyState* copy_state) {
-    FreePnextChain(pNext);
-    sType = in_struct->sType;
-    accelerationStructureSize = in_struct->accelerationStructureSize;
-    updateScratchSize = in_struct->updateScratchSize;
-    buildScratchSize = in_struct->buildScratchSize;
-    pNext = SafePnextCopy(in_struct->pNext, copy_state);
-}
-
-void safe_VkAccelerationStructureBuildSizesInfoKHR::initialize(const safe_VkAccelerationStructureBuildSizesInfoKHR* copy_src,
-                                                               [[maybe_unused]] PNextCopyState* copy_state) {
-    sType = copy_src->sType;
-    accelerationStructureSize = copy_src->accelerationStructureSize;
-    updateScratchSize = copy_src->updateScratchSize;
-    buildScratchSize = copy_src->buildScratchSize;
     pNext = SafePnextCopy(copy_src->pNext);
 }
 
