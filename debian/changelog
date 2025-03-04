@@ -1,3 +1,41 @@
+vulkan-utility-libraries (1.4.309.0~rc1-1lunarg24.04-1) noble; urgency=medium
+
+  [ spencer-lunarg ]
+  * format: Add note for Multi-planar
+
+  [ Mike Schuchardt ]
+  * build: Update to header 1.4.305
+
+  [ spencer-lunarg ]
+  * formats: Remove vkuFormatElementIsTexel
+  * formats: Add vkuFormatIsDepthStencilWithColorSizeCompatible
+  * formats: Add vkuFormatTexelBlockSize
+  * formats: Add vkuFormatTexelsPerBlock
+
+  [ Mike Schuchardt ]
+  * build: Update to header 1.4.306
+
+  [ spencer-lunarg ]
+  * scripts: Sync up base generator and vulkan object
+
+  [ Mike Schuchardt ]
+  * build: Update to header 1.4.307
+  * build: Update to header 1.4.309
+
+  [ spencer-lunarg ]
+  * scripts: Use new VulkanObject from headers
+  * scripts: Manual VK_ENABLE_BETA_EXTENSIONS
+
+  [ Charles Giessen ]
+  * build: Use PROJECT_IS_TOP_LEVEL
+  * build: Add VUL_ENABLE_INSTALL option
+  * ci: Update to Ubuntu 22.04 & 24.04
+
+  [ Alan Baker ]
+  * Add additional Android NDK API guards
+
+ -- john <john@odin>  Tue, 04 Mar 2025 09:39:42 -0700
+
 vulkan-utility-libraries (1.4.304.0~rc1-1lunarg24.04-1) noble; urgency=medium
 
   [ ziga-lunarg ]
