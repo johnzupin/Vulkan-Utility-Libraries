@@ -1,3 +1,10 @@
+vulkan-utility-libraries (1.4.309.0~rc2-1lunarg24.04-1) noble; urgency=medium
+
+  [ spencer-lunarg ]
+  * format: Fix DepthStencil to Color compatible check
+
+ -- john <john@odin>  Fri, 07 Mar 2025 08:45:48 -0700
+
 vulkan-utility-libraries (1.4.309.0~rc1-1lunarg24.04-1) noble; urgency=medium
 
   [ spencer-lunarg ]
