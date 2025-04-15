@@ -1,3 +1,38 @@
+vulkan-utility-libraries (1.4.312.0~rc1-1lunarg22.04-1) jammy; urgency=medium
+
+  [ spencer-lunarg ]
+  * format: Fix DepthStencil to Color compatible check
+
+  [ Mike Schuchardt ]
+  * build: Update to header 1.4.310
+
+  [ spencer-lunarg ]
+  * scripts: Remove Protect workaround
+
+  [ Mike Schuchardt ]
+  * build: Update to header 1.4.311
+
+  [ dependabot[bot] ]
+  * build(deps): Bump jidicula/clang-format-action from 4.14.0 to 4.15.0
+
+  [ Charles Giessen ]
+  * formats: vkuGetFormatInfo to use array
+
+  [ spencer-lunarg ]
+  * formats: Handle SRGB correction
+
+  [ Mike Schuchardt ]
+  * build: Update to header 1.4.312
+
+  [ Christophe ]
+  * Fix typo
+  * settings: Add Android layer settings example
+
+  [ jpr42 ]
+  * Fix UBSAN error
+
+ -- john <john@odin>  Tue, 15 Apr 2025 14:45:02 -0600
+
 vulkan-utility-libraries (1.4.309.0~rc2-1lunarg22.04-1) jammy; urgency=medium
 
   [ spencer-lunarg ]
